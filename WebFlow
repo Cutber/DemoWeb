@@ -1,0 +1,84 @@
+name: Ant Build 
+
+on:
+  workflow_dispatch: 
+  pull_request:
+    branches:
+      - develop  
+      - qa_split
+  push:
+    paths-ignore:     
+      - '.github/**'
+      - '*.md'
+    branches: 
+      - develop
+      - qa_split
+      - qa
+      - main
+      - drp
+
+jobs:
+  deploy_develop:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar entorno
+        run: echo "Configurando entorno para DEVELOP"
+
+      - name: Ejecutar despliegue
+        run: echo "Desplegando en el ambiente de DEVELOP"
+
+  deploy_qa_split:
+    if: github.ref == 'refs/heads/qa_split'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar entorno
+        run: echo "Configurando entorno para QA_SPLIT"
+
+      - name: Ejecutar despliegue
+        run: echo "Desplegando en el ambiente de QA_SPLIT"
+
+  deploy_qa:
+    if: github.ref == 'refs/heads/qa'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar entorno
+        run: echo "Configurando entorno para QA"
+
+      - name: Ejecutar despliegue
+        run: echo "Desplegando en el ambiente de QA"
+
+  deploy_main:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar entorno
+        run: echo "Configurando entorno para PRODUCCIÓN"
+
+      - name: Ejecutar despliegue
+        run: echo "Desplegando en PRODUCCIÓN"
+
+  deploy_drp:
+    if: github.ref == 'refs/heads/drp'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar entorno
+        run: echo "Configurando entorno para DRP"
+
+      - name: Ejecutar despliegue
+        run: echo "Desplegando en el ambiente de DRP"
