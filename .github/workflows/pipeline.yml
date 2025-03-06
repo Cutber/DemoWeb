@@ -1,0 +1,34 @@
+name: CI/CD Pipeline for DemoWeb (Windows)
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - qa_split
+  push:
+    paths-ignore:
+      - '.github/**'
+      - '*.md'
+    branches:
+      - develop
+      - qa_split
+      - qa
+      - main
+
+jobs:
+  deploy_develop:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: windows-latest
+    steps:
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+      - name: Configurar entorno
+        shell: pwsh
+        run: |
+          Write-Output "Configurando entorno para develop"
+      - name: Ejecutar despliegue
+        shell: pwsh
+        run: |
+          Write-Output "Desplegando en el ambiente de develop"
+
+
