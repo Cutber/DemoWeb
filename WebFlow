@@ -15,7 +15,6 @@ on:
       - qa_split
       - qa
       - main
-      - drp
 
 jobs:
   deploy_develop:
@@ -25,11 +24,11 @@ jobs:
       - name: Checkout código fuente
         uses: actions/checkout@v4
 
-      - name: Configurar entorno
-        run: echo "Configurando entorno para DEVELOP"
+      - name: Aplicando CI develop
+        run: echo "Configurando entorno para develop"
 
       - name: Ejecutar despliegue
-        run: echo "Desplegando en el ambiente de DEVELOP"
+        run: echo "Realizando integración continua sobre entorno de develop"
 
   deploy_qa_split:
     if: github.ref == 'refs/heads/qa_split'
@@ -38,11 +37,11 @@ jobs:
       - name: Checkout código fuente
         uses: actions/checkout@v4
 
-      - name: Configurar entorno
-        run: echo "Configurando entorno para QA_SPLIT"
+      - name: Aplicando CI qa_split
+        run: echo "Configurando entorno para qa_split"
 
       - name: Ejecutar despliegue
-        run: echo "Desplegando en el ambiente de QA_SPLIT"
+        run: echo "Realizando integración continua sobre entorno de qa_split"
 
   deploy_qa:
     if: github.ref == 'refs/heads/qa'
@@ -51,11 +50,11 @@ jobs:
       - name: Checkout código fuente
         uses: actions/checkout@v4
 
-      - name: Configurar entorno
-        run: echo "Configurando entorno para QA"
+      - name: Aplicando CI qa
+        run: echo "Configurando entorno para qa"
 
       - name: Ejecutar despliegue
-        run: echo "Desplegando en el ambiente de QA"
+        run: echo "Realizando integración continua sobre entorno de qa"
 
   deploy_main:
     if: github.ref == 'refs/heads/main'
@@ -64,21 +63,9 @@ jobs:
       - name: Checkout código fuente
         uses: actions/checkout@v4
 
-      - name: Configurar entorno
-        run: echo "Configurando entorno para PRODUCCIÓN"
+      - name:  Aplicando CI main
+        run: echo "Realizando integración continua sobre entorno de main"
 
       - name: Ejecutar despliegue
-        run: echo "Desplegando en PRODUCCIÓN"
+        run: echo "Dealizando integración continua sobre entorno de main"
 
-  deploy_drp:
-    if: github.ref == 'refs/heads/drp'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout código fuente
-        uses: actions/checkout@v4
-
-      - name: Configurar entorno
-        run: echo "Configurando entorno para DRP"
-
-      - name: Ejecutar despliegue
-        run: echo "Desplegando en el ambiente de DRP"
