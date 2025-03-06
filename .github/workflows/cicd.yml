@@ -1,0 +1,56 @@
+name: CI/CD Pipeline for DemoWeb
+
+on:
+  pull_request:
+    branches:
+      - development
+      - qa_split
+  push:
+    paths-ignore:
+      - '.github/**'
+      - '*.md'
+    branches:
+      - develop
+      - qa_split
+      - qa
+      - main
+
+jobs:
+  deploy_develop:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar entorno
+        run: echo "Configurando entorno para develop"
+
+      - name: Ejecutar despliegue
+        run: echo "Desplegando en el ambiente de develop"
+
+  deploy_qa_split:
+    if: github.ref == 'refs/heads/qa_split'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar entorno
+        run: echo "Configurando entorno para qa_split"
+
+      - name: Ejecutar despliegue
+        run: echo "Desplegando en el ambiente de qa_split"
+
+  deploy_qa:
+    if: github.ref == 'refs/heads/qa'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar entorno
+        run: echo "Configurando entorno para qa"
+
+      - name: Ejecutar despliegue
+        run: echo "Desplegando en el ambiente de qa"
