@@ -1,0 +1,26 @@
+name: Deploy Develop to QA Split
+
+on:
+  pull_request:
+    branches:
+      - qa_split
+  push:
+    branches:
+      - qa_split
+
+jobs:
+  deploy_qa_split:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar entorno QA Split
+        shell: pwsh
+        run: |
+          Write-Output "Configurando entorno para QA Split"
+
+      - name: Ejecutar despliegue en QA Split
+        shell: pwsh
+        run: |
+          Write-Output "Desplegando la versión desde Develop en QA Split"
