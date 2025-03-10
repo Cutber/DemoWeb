@@ -12,35 +12,35 @@ pipeline {
             steps {
                 script {
                     powershell '''
-                    # Configurar identidad en Git (evita errores)
+                    # Configurar identidad en Git (evita errores de autenticación)
                     git config --global user.name "Cutberto Hernández Sánchez"
                     git config --global user.email "cutberto.hdez.s@gmail.com"
 
                     # Verificar estado actual de las ramas
-                    echo "📌 Verificando estado de las ramas..."
+                    Write-Output "📌 Verificando estado de las ramas..."
                     git fetch --all
 
                     # Cambiar a la rama QA_Split
-                    echo "📌 Cambiando a la rama qa_split..."
+                    Write-Output "📌 Cambiando a la rama qa_split..."
                     git checkout qa_split
 
-                    # Actualizar QA_Split con la última versión remota
-                    echo "📌 Haciendo pull de QA_Split..."
+                    # Hacer pull para actualizar la rama
+                    Write-Output "📌 Haciendo pull de QA_Split..."
                     git pull origin qa_split --ff-only
 
-                    # Intentar el merge desde develop (manejando conflictos automáticamente)
-                    echo "📌 Intentando merge..."
-                    git merge origin/develop -X theirs || echo "⚠️ Conflictos detectados, revisando..."
-
-                    # Verificar si hay conflictos pendientes
-                    if (git ls-files -u) {
-                        echo "❌ Hay conflictos sin resolver. Abortando el merge."
+                    # Intentar el merge desde develop, capturando errores de conflicto
+                    Write-Output "📌 Intentando merge..."
+                    try {
+                        git merge origin/develop -X theirs
+                    } catch {
+                        Write-Output "⚠️ Conflictos detectados. Abortando merge."
                         git merge --abort
                         exit 1
-                    } else {
-                        echo "✅ Merge exitoso, subiendo cambios..."
-                        git push origin qa_split
                     }
+
+                    # Subir cambios si el merge fue exitoso
+                    Write-Output "✅ Merge exitoso, subiendo cambios..."
+                    git push origin qa_split
                     '''
                 }
             }
