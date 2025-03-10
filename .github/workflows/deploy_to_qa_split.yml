@@ -19,9 +19,9 @@ jobs:
       - name: Configurar entorno QA Split
         shell: pwsh
         run: |
-          Write-Output "Configurando entorno para QA Split"
+          Write-Output "Configurando código para QA Split"
 
-      - name: Ejecutar despliegue en QA Split
+      - name: Configurnado entorno en QA Split
         shell: pwsh
         run: |
-          Write-Output "Desplegando la versión desde Develop en QA Split"
+          Write-Output "Confirgurando código la versión desde Develop en QA Split"
