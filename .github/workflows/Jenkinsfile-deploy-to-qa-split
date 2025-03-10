@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout Develop') {
+            steps {
+                git branch: 'develop', url: 'https://github.com/Cutber/DemoWeb.git'
+            }
+        }
+
+        stage('Merge Develop into QA_Split') {
+            steps {
+                script {
+                    powershell '''
+                    git checkout qa_split
+                    git merge origin/develop
+                    git push origin qa_split
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy to QA_Split') {
+            steps {
+                echo 'Desplegando en QA_Split...'
+            }
+        }
+    }
+}
