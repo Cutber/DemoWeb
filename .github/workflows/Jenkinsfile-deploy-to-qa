@@ -11,7 +11,7 @@ pipeline {
         stage('Merge Develop into QA') {
             steps {
                 script {
-                    sh '''
+                    powershell '''
                     git checkout qa
                     git merge origin/develop
                     git push origin qa
