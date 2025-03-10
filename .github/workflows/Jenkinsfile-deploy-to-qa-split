@@ -12,9 +12,35 @@ pipeline {
             steps {
                 script {
                     powershell '''
+                    # Configurar identidad en Git (evita errores)
+                    git config --global user.name "Cutberto Hernández Sánchez"
+                    git config --global user.email "cutberto.hdez.s@gmail.com"
+
+                    # Verificar estado actual de las ramas
+                    echo "📌 Verificando estado de las ramas..."
+                    git fetch --all
+
+                    # Cambiar a la rama QA_Split
+                    echo "📌 Cambiando a la rama qa_split..."
                     git checkout qa_split
-                    git merge origin/develop
-                    git push origin qa_split
+
+                    # Actualizar QA_Split con la última versión remota
+                    echo "📌 Haciendo pull de QA_Split..."
+                    git pull origin qa_split --ff-only
+
+                    # Intentar el merge desde develop (manejando conflictos automáticamente)
+                    echo "📌 Intentando merge..."
+                    git merge origin/develop -X theirs || echo "⚠️ Conflictos detectados, revisando..."
+
+                    # Verificar si hay conflictos pendientes
+                    if (git ls-files -u) {
+                        echo "❌ Hay conflictos sin resolver. Abortando el merge."
+                        git merge --abort
+                        exit 1
+                    } else {
+                        echo "✅ Merge exitoso, subiendo cambios..."
+                        git push origin qa_split
+                    }
                     '''
                 }
             }
@@ -22,7 +48,7 @@ pipeline {
 
         stage('Deploy to QA_Split') {
             steps {
-                echo 'Desplegando en QA_Split...'
+                echo '🚀 Desplegando en QA_Split...'
             }
         }
     }
