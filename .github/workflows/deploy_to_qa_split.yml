@@ -16,12 +16,12 @@ jobs:
       - name: Checkout código fuente
         uses: actions/checkout@v4
 
-      - name: Integrando entorno QA Split
+      - name: Configurar entorno QA Split
         shell: pwsh
         run: |
-          Write-Output "Integrando código para QA Split"
+          Write-Output "Configurando código para QA Split"
 
-      - name: Ejecutar despliegue en QA Split
+      - name: Configuirar despliegue en QA Split
         shell: pwsh
         run: |
-          Write-Output "Integrando la versión desde Develop en QA Split"
+          Write-Output "Configurando código desde Develop en QA Split"
