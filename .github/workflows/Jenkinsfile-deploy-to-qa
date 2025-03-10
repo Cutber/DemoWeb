@@ -11,9 +11,17 @@ pipeline {
         stage('Merge Develop into QA') {
             steps {
                 script {
-                    powershell '''
+                    bat '''
+                    echo "⏳ Cambiando a la rama QA..."
                     git checkout qa
-                    git merge origin/develop
+
+                    echo "🔄 Haciendo pull de QA..."
+                    git pull origin qa --ff-only
+
+                    echo "🔁 Fusionando cambios desde Develop..."
+                    git merge origin/develop --no-edit
+
+                    echo "⬆️ Subiendo cambios a QA..."
                     git push origin qa
                     '''
                 }
@@ -22,7 +30,7 @@ pipeline {
 
         stage('Deploy to QA') {
             steps {
-                echo 'Desplegando en QA...'
+                echo '🚀 Desplegando en QA...'
             }
         }
     }
