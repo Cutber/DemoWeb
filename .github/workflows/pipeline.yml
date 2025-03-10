@@ -27,9 +27,9 @@ jobs:
         shell: pwsh
         run: |
           Write-Output "Configurando entorno para develop"
-      - name: Ejecutar despliegue
+      - name: Ejecutar 
         shell: pwsh
         run: |
-          Write-Output "Desplegando en el ambiente de develop"
+          Write-Output "Configurando código en el ambiente de develop"
 
 
