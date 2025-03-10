@@ -16,12 +16,12 @@ jobs:
       - name: Checkout código fuente
         uses: actions/checkout@v4
 
-      - name: Integrando entorno QA
+      - name: Configurar entorno QA
         shell: pwsh
         run: |
-          Write-Output "Integrando código para QA"
+          Write-Output "Configurar código para QA"
 
-      - name: Integrando entorno en QA
+      - name: Configurar entorno en QA
         shell: pwsh
         run: |
-          Write-Output "Integrando código desde Develop en QA"
+          Write-Output "Configurar código Develop en QA"
