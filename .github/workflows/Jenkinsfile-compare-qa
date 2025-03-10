@@ -17,7 +17,7 @@ pipeline {
         stage('Compare Branches') {
             steps {
                 script {
-                    def diff = powershell(script: 'git diff origin/qa origin/qa_split', returnStdout: true).trim()
+                    def diff = sh(script: 'git diff origin/qa origin/qa_split', returnStdout: true).trim()
                     if (diff) {
                         echo '❌ Hay diferencias entre QA y QA_Split'
                     } else {
