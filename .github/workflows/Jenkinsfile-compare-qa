@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout QA') {
+            steps {
+                git branch: 'qa', url: 'https://github.com/Cutber/DemoWeb.git'
+            }
+        }
+
+        stage('Checkout QA_Split') {
+            steps {
+                git branch: 'qa_split', url: 'https://github.com/Cutber/DemoWeb.git'
+            }
+        }
+
+        stage('Compare Branches') {
+            steps {
+                script {
+                    def diff = sh(script: 'git diff origin/qa origin/qa_split', returnStdout: true).trim()
+                    if (diff) {
+                        echo '❌ Hay diferencias entre QA y QA_Split'
+                    } else {
+                        echo '✅ No hay diferencias, QA y QA_Split están sincronizados'
+                    }
+                }
+            }
+        }
+    }
+}
