@@ -24,10 +24,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configurar entorno
-        run: echo "Configurando entorno para develop"
+        run: echo "Configurando código para develop"
 
-      - name: Ejecutar despliegue
-        run: echo "Desplegando en el ambiente de develop"
+      - name: Configurando despliegue
+        run: echo "Configurando código en el ambiente de develop"
 
   deploy_qa_split:
     if: github.ref == 'refs/heads/qa_split'
@@ -40,7 +40,7 @@ jobs:
         run: echo "Configurando entorno para qa_split"
 
       - name: Ejecutar despliegue
-        run: echo "Desplegando en el ambiente de qa_split"
+        run: echo "Configfurando cpodigo en el ambiente de qa_split"
 
   deploy_qa:
     if: github.ref == 'refs/heads/qa'
@@ -50,7 +50,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configurar entorno
-        run: echo "Configurando entorno para qa"
+        run: echo "Confifguando código para qa"
 
       - name: Ejecutar despliegue
-        run: echo "Desplegando en el ambiente de qa"
+        run: echo "Configurando código ambiente de qa"
