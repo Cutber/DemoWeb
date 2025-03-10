@@ -4,20 +4,32 @@ pipeline {
     stages {
         stage('Checkout QA') {
             steps {
-                git branch: 'qa', url: 'https://github.com/Cutber/DemoWeb.git'
+                script {
+                    bat '''
+                    echo "⏳ Clonando la rama QA..."
+                    git checkout qa
+                    git pull origin qa --ff-only
+                    '''
+                }
             }
         }
 
         stage('Checkout QA_Split') {
             steps {
-                git branch: 'qa_split', url: 'https://github.com/Cutber/DemoWeb.git'
+                script {
+                    bat '''
+                    echo "⏳ Clonando la rama QA_Split..."
+                    git checkout qa_split
+                    git pull origin qa_split --ff-only
+                    '''
+                }
             }
         }
 
         stage('Compare Branches') {
             steps {
                 script {
-                    def diff = powershell(script: 'git diff origin/qa origin/qa_split', returnStdout: true).trim()
+                    def diff = bat(script: 'git diff origin/qa origin/qa_split', returnStdout: true).trim()
                     if (diff) {
                         echo '❌ Hay diferencias entre QA y QA_Split'
                     } else {
