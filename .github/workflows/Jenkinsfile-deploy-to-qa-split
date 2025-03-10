@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout Develop') {
+            steps {
+                git branch: 'develop', url: 'https://github.com/Cutber/DemoWeb.git'
+            }
+        }
+
+        stage('Merge Develop into QA_Split') {
+            steps {
+                script {
+                    powershell '''
+                    # Configurar identidad en Git (evita errores de autenticación)
+                    git config --global user.name "Cutberto Hernández Sánchez"
+                    git config --global user.email "cutberto.hdez.s@gmail.com"
+
+                    # Verificar estado actual de las ramas
+                    Write-Output "📌 Verificando estado de las ramas..."
+                    git fetch --all
+
+                    # Cambiar a la rama QA_Split
+                    Write-Output "📌 Cambiando a la rama qa_split..."
+                    git checkout qa_split
+
+                    # Hacer pull para actualizar la rama
+                    Write-Output "📌 Haciendo pull de QA_Split..."
+                    git pull origin qa_split --ff-only
+
+                    # Intentar el merge desde develop, capturando errores de conflicto
+                    Write-Output "📌 Intentando merge..."
+                    try {
+                        git merge origin/develop -X theirs
+                    } catch {
+                        Write-Output "⚠️ Conflictos detectados. Abortando merge."
+                        git merge --abort
+                        exit 1
+                    }
+
+                    # Subir cambios si el merge fue exitoso
+                    Write-Output "✅ Merge exitoso, subiendo cambios..."
+                    git push origin qa_split
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy to QA_Split') {
+            steps {
+                echo '🚀 Desplegando en QA_Split...'
+            }
+        }
+    }
+}
