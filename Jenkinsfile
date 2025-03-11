@@ -19,7 +19,7 @@ pipeline {
             }
         }
 
-        stage('Obtener Última Versión') {
+        stage('Obtener ultima Version') {
             steps {
                 script {
                     def latestTag = sh(script: "cd DemoWeb && git tag --sort=-v:refname | tail -n 1", returnStdout: true).trim()
@@ -30,7 +30,7 @@ pipeline {
                         latestTag = "v${parts[0]}.${parts[1]}.${parts[2].toInteger() + 1}"
                     }
                     env.NEW_VERSION = latestTag
-                    sh "echo 'Nueva versión: ${env.NEW_VERSION}'"
+                    sh "echo 'Nueva version: ${env.NEW_VERSION}'"
                 }
             }
         }
@@ -47,7 +47,7 @@ pipeline {
                                 "title": "Merge ${FEATURE_BRANCH} into ${DEVELOP_BRANCH}",
                                 "head": "${FEATURE_BRANCH}",
                                 "base": "${DEVELOP_BRANCH}",
-                                "body": "Pull request automático creado por Jenkins"
+                                "body": "Pull request automatico creado por Jenkins"
                             }' \
                             https://api.github.com/repos/Cutber/DemoWeb/pulls
                     """
@@ -58,7 +58,7 @@ pipeline {
     }
 
     stages {
-        stage('Clonar Repositorio o Actualizar Código') {
+        stage('Clonar Repositorio o Actualizar Codigo') {
             steps {
                 script {
                     bat '''
@@ -123,10 +123,10 @@ pipeline {
                     bat '''
                     cd DemoWeb
                     git add .
-                    git commit -m "Actualización automática desde Jenkins"
+                    git commit -m "Actualizacion automatica desde Jenkins"
                     git push origin %BRANCH%
                     '''
-	 6ac3940 (Actualización de Jenkinsfile para Windows 11)
+	 6ac3940 (Actualizacion de Jenkinsfile para Windows 11)
                 }
             }
         }
@@ -139,8 +139,8 @@ pipeline {
             echo 'Pipeline ejecutado exitosamente en Windows 11.'
         }
         failure {
-            echo 'Hubo un error en la ejecución del pipeline.'
+            echo 'Hubo un error en la ejecucion del pipeline.'
         }
     }
 }
-	 6ac3940 (Actualización de Jenkinsfile para Windows 11)
+	 6ac3940 (Actualizacion de Jenkinsfile para Windows 11)
