@@ -26,7 +26,7 @@ pipeline {
 
                     # Hacer pull para actualizar la rama
                     Write-Output "📌 Haciendo pull de QA_Split..."
-                    git pull origin qa_split --ff-only
+                    git pull origin qa_split 
 
                     # Intentar el merge desde develop, capturando errores de conflicto
                     Write-Output "📌 Intentando merge..."
