@@ -7,7 +7,8 @@ on:
 
 jobs:
   create-tag:
-    runs-on: windows-latest  # Cambiado a Windows
+    runs-on: windows-latest  # Aseguramos que se ejecute en Windows
+
     steps:
       - name: Checkout del Código
         uses: actions/checkout@v3
@@ -37,7 +38,7 @@ jobs:
         run: |
           git config --global user.email "cutberto.hdez.s@gmail.com"
           git config --global user.name "Cutberto Hernández Sánchez"
-          git remote set-url origin https://x-access-token:$Env:GH_TOKEN@github.com/Cutber/DemoWeb.git
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/Cutber/DemoWeb.git
 
       - name: Crear y Subir Nuevo Tag
         shell: pwsh
