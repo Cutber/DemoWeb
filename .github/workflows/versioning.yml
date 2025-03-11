@@ -6,7 +6,7 @@ on:
 
 jobs:
   create-tag:
-    runs-on: windows-latest  # Aseguramos que se ejecute en Windows
+    runs-on: windows-latest
     steps:
       - name: Checkout del Código
         uses: actions/checkout@v3
@@ -15,7 +15,7 @@ jobs:
 
       - name: Obtener Última Versión
         id: version
-        shell: pwsh  # Usa PowerShell porque es Windows
+        shell: pwsh
         run: |
           $LATEST_TAG = git tag --sort=-v:refname | Select-Object -First 1
           Write-Output "Última versión encontrada: $LATEST_TAG"
@@ -40,6 +40,8 @@ jobs:
 
       - name: Crear y Subir Nuevo Tag
         shell: pwsh
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           git tag -a $Env:NEW_TAG -m "Automated release: $Env:NEW_TAG"
-          git push origin $Env:NEW_TAG
+          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/Cutber/DemoWeb.git $Env:NEW_TAG
