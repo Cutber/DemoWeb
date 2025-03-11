@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-<<<<<<< HEAD
+	HEAD
         GH_PAT = credentials('github-pat')  // Usa la credencial almacenada en Jenkins
         REPO_URL = 'https://github.com/Cutber/DemoWeb.git'
         FEATURE_BRANCH = 'feature/dev'
@@ -51,7 +51,7 @@ pipeline {
                             }' \
                             https://api.github.com/repos/Cutber/DemoWeb/pulls
                     """
-=======
+
         REPO_URL = 'https://github.com/Cutber/DemoWeb.git'
         BRANCH = 'feature/dev'
         REPORT_DIR = 'C:\\Users\\eTriber\\OneDrive\\Documentos\\generador_reportes\\Reportes_Relacionados'
@@ -126,15 +126,14 @@ pipeline {
                     git commit -m "Actualización automática desde Jenkins"
                     git push origin %BRANCH%
                     '''
->>>>>>> 6ac3940 (Actualización de Jenkinsfile para Windows 11)
+	 6ac3940 (Actualización de Jenkinsfile para Windows 11)
                 }
             }
         }
     }
-<<<<<<< HEAD
+	 HEAD
 }
-=======
-
+	
     post {
         success {
             echo 'Pipeline ejecutado exitosamente en Windows 11.'
@@ -144,4 +143,4 @@ pipeline {
         }
     }
 }
->>>>>>> 6ac3940 (Actualización de Jenkinsfile para Windows 11)
+	 6ac3940 (Actualización de Jenkinsfile para Windows 11)
