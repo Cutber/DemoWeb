@@ -1,66 +1,10 @@
-name: Auto Versioning and Deploy
+- name: Autenticar con GitHub
+  run: |
+    git config --global user.email "cutberto.hdez.s@gmail.com"
+    git config --global user.name "Cutberto Hernández Sánchez"
+    git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/Cutber/DemoWeb.git
 
-on:
-  push:
-    branches:
-      - develop
-
-  pull_request:
-    branches:
-      - qa
-      - qa_split
-
-jobs:
-  versioning:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Código
-        uses: actions/checkout@v4
-
-      - name: Configurar Git
-        run: |
-          git config --global user.name "Cutberto Hernández Sánchez"
-          git config --global user.email "cutberto.hdez.s@gmail.com"
-
-      - name: Obtener Última Versión
-        id: get_version
-        run: |
-          LAST_TAG=$(git describe --tags --abbrev=0 || echo "v0.0.0")
-          IFS='.' read -r MAJOR MINOR PATCH <<< "${LAST_TAG//v/}"
-          PATCH=$((PATCH + 1))
-          NEW_TAG="v$MAJOR.$MINOR.$PATCH"
-          echo "NEW_TAG=${NEW_TAG}" >> $GITHUB_ENV
-          echo "🚀 Nueva versión generada: ${NEW_TAG}"
-
-      - name: Crear y Subir Nuevo Tag
-        run: |
-          git tag -a $NEW_TAG -m "Automated release: $NEW_TAG"
-          git push origin $NEW_TAG
-
-  merge-to-qa:
-    needs: versioning
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Código
-        uses: actions/checkout@v4
-
-      - name: Merge Develop to QA
-        run: |
-          git fetch origin
-          git checkout qa
-          git merge origin/develop
-          git push origin qa
-
-  merge-to-qa-split:
-    needs: merge-to-qa
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Código
-        uses: actions/checkout@v4
-
-      - name: Merge Develop to QA_Split
-        run: |
-          git fetch origin
-          git checkout qa_split
-          git merge origin/develop
-          git push origin qa_split
+- name: Crear y Subir Nuevo Tag
+  run: |
+    git tag -a $NEW_TAG -m "Automated release: $NEW_TAG"
+    git push origin $NEW_TAG
