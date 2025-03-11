@@ -120,10 +120,10 @@ stage('Crear Pull Request en GitHub') {
 
     post {
         success {
-            echo '✅ Pipeline ejecutado exitosamente en Windows 11.'
+            echo 'Pipeline ejecutado exitosamente en Windows 11.'
         }
         failure {
-            echo '❌ Hubo un error en la ejecución del pipeline.'
+            echo 'Hubo un error en la ejecución del pipeline.'
         }
     }
 }        
