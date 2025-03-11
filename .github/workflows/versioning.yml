@@ -36,7 +36,14 @@ jobs:
         run: |
           git config --global user.email "cutberto.hdez.s@gmail.com"
           git config --global user.name "Cutberto Hernández Sánchez"
+          git config --global credential.helper store
+          echo "https://x-access-token:${{ secrets.GH_PAT }}@github.com" | Out-File -FilePath $HOME/.git-credentials -Encoding utf8
           git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/Cutber/DemoWeb.git
+
+      - name: Verificar URL Remota
+        shell: pwsh
+        run: |
+          git remote -v
 
       - name: Crear y Subir Nuevo Tag
         shell: pwsh
