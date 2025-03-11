@@ -126,7 +126,6 @@ pipeline {
                     git commit -m "Actualizacion automatica desde Jenkins"
                     git push origin %BRANCH%
                     '''
-	 6ac3940 (Actualizacion de Jenkinsfile para Windows 11)
                 }
             }
         }
