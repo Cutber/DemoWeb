@@ -36,7 +36,7 @@ jobs:
         run: |
           git config --global user.email "cutberto.hdez.s@gmail.com"
           git config --global user.name "Cutberto Hernández Sánchez"
-          
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/Cutber/DemoWeb.git
 
       - name: Crear y Subir Nuevo Tag
         shell: pwsh
