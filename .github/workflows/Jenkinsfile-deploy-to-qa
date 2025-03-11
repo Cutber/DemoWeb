@@ -17,28 +17,29 @@ pipeline {
                     git config --global user.email "cutberto.hdez.s@gmail.com"
 
                     # Verificar estado actual de las ramas
-                    Write-Output "Verificando estado de las ramas..."
+                    Write-Output "📌 Verificando estado de las ramas..."
                     git fetch --all
 
-                    Write-Output "Cambiando a la rama qa..."
+                    # Cambiar a la rama QA
+                    Write-Output "📌 Cambiando a la rama qa..."
                     git checkout qa
 
                     # Hacer pull para actualizar la rama
-                    Write-Output "Haciendo pull de QA..."
-                    git pull origin qa
+                    Write-Output "📌 Haciendo pull de QA..."
+                    git pull origin qa 
 
                     # Intentar el merge desde develop, capturando errores de conflicto
-                    Write-Output "Intentando merge..."
+                    Write-Output "📌 Intentando merge..."
                     try {
                         git merge origin/develop -X theirs
                     } catch {
-                        Write-Output "Conflictos detectados. Abortando merge."
+                        Write-Output "⚠️ Conflictos detectados. Abortando merge."
                         git merge --abort
                         exit 1
                     }
 
                     # Subir cambios si el merge fue exitoso
-                    Write-Output "Merge exitoso, subiendo cambios..."
+                    Write-Output "✅ Merge exitoso, subiendo cambios..."
                     git push origin qa
                     '''
                 }
