@@ -2,24 +2,33 @@ pipeline {
     agent any
 
     environment {
-	HEAD
         GH_PAT = credentials('github-pat')  // Usa la credencial almacenada en Jenkins
         REPO_URL = 'https://github.com/Cutber/DemoWeb.git'
         FEATURE_BRANCH = 'feature/dev'
         DEVELOP_BRANCH = 'develop'
+        REPORT_DIR = 'C:\\Users\\eTriber\\OneDrive\\Documentos\\generador_reportes\\Reportes_Relacionados'
     }
 
     stages {
         stage('Clonar Repositorio') {
             steps {
                 script {
-                    sh "git clone ${REPO_URL}"
-                    sh "cd DemoWeb && git checkout ${FEATURE_BRANCH} && git pull origin ${FEATURE_BRANCH}"
+                    bat '''
+                    if exist "DemoWeb" (
+                        echo "El repositorio ya existe. Haciendo git pull..."
+                        cd DemoWeb
+                        git reset --hard
+                        git pull origin %FEATURE_BRANCH%
+                    ) else (
+                        echo "Clonando el repositorio..."
+                        git clone -b %FEATURE_BRANCH% %REPO_URL%
+                    )
+                    '''
                 }
             }
         }
 
-        stage('Obtener ultima Version') {
+        stage('Obtener Última Versión') {
             steps {
                 script {
                     def latestTag = sh(script: "cd DemoWeb && git tag --sort=-v:refname | tail -n 1", returnStdout: true).trim()
@@ -30,12 +39,11 @@ pipeline {
                         latestTag = "v${parts[0]}.${parts[1]}.${parts[2].toInteger() + 1}"
                     }
                     env.NEW_VERSION = latestTag
-                    sh "echo 'Nueva version: ${env.NEW_VERSION}'"
+                    sh "echo 'Nueva versión: ${env.NEW_VERSION}'"
                 }
             }
         }
-
-        stage('Crear Pull Request en GitHub') {
+stage('Crear Pull Request en GitHub') {
             steps {
                 script {
                     sh """
@@ -47,31 +55,10 @@ pipeline {
                                 "title": "Merge ${FEATURE_BRANCH} into ${DEVELOP_BRANCH}",
                                 "head": "${FEATURE_BRANCH}",
                                 "base": "${DEVELOP_BRANCH}",
-                                "body": "Pull request automatico creado por Jenkins"
+                                "body": "Pull request automático creado por Jenkins"
                             }' \
                             https://api.github.com/repos/Cutber/DemoWeb/pulls
                     """
-
-        REPO_URL = 'https://github.com/Cutber/DemoWeb.git'
-        BRANCH = 'feature/dev'
-        REPORT_DIR = 'C:\\Users\\eTriber\\OneDrive\\Documentos\\generador_reportes\\Reportes_Relacionados'
-    }
-
-    stages {
-        stage('Clonar Repositorio o Actualizar Codigo') {
-            steps {
-                script {
-                    bat '''
-                    if exist "DemoWeb" (
-                        echo "El repositorio ya existe. Haciendo git pull..."
-                        cd DemoWeb
-                        git reset --hard
-                        git pull origin %BRANCH%
-                    ) else (
-                        echo "Clonando el repositorio..."
-                        git clone -b %BRANCH% %REPO_URL%
-                    )
-                    '''
                 }
             }
         }
@@ -123,23 +110,20 @@ pipeline {
                     bat '''
                     cd DemoWeb
                     git add .
-                    git commit -m "Actualizacion automatica desde Jenkins"
-                    git push origin %BRANCH%
+                    git commit -m "Actualización automática desde Jenkins"
+                    git push origin %FEATURE_BRANCH%
                     '''
                 }
             }
         }
     }
-	 HEAD
-}
-	
+
     post {
         success {
-            echo 'Pipeline ejecutado exitosamente en Windows 11.'
+            echo '✅ Pipeline ejecutado exitosamente en Windows 11.'
         }
         failure {
-            echo 'Hubo un error en la ejecucion del pipeline.'
+            echo '❌ Hubo un error en la ejecución del pipeline.'
         }
     }
-}
-}	 
+}        
