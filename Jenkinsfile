@@ -63,12 +63,12 @@ pipeline {
                 script {
                     bat '''
                     if exist "DemoWeb" (
-                        echo "📌 El repositorio ya existe. Haciendo git pull..."
+                        echo "El repositorio ya existe. Haciendo git pull..."
                         cd DemoWeb
                         git reset --hard
                         git pull origin %BRANCH%
                     ) else (
-                        echo "📌 Clonando el repositorio..."
+                        echo "Clonando el repositorio..."
                         git clone -b %BRANCH% %REPO_URL%
                     )
                     '''
@@ -82,10 +82,10 @@ pipeline {
                     bat '''
                     cd DemoWeb
                     if not exist "venv" (
-                        echo "📌 Creando entorno virtual..."
+                        echo "Creando entorno virtual..."
                         python -m venv venv
                     )
-                    echo "📌 Activando entorno virtual..."
+                    echo "Activando entorno virtual..."
                     call venv\\Scripts\\activate
                     pip install --upgrade pip
                     pip install -r requirements.txt
@@ -123,10 +123,10 @@ pipeline {
                     bat '''
                     cd DemoWeb
                     git add .
-                    git commit -m "🚀 Actualización automática desde Jenkins"
+                    git commit -m "Actualización automática desde Jenkins"
                     git push origin %BRANCH%
                     '''
->>>>>>> 6ac3940 (🚀 Actualización de Jenkinsfile para Windows 11)
+>>>>>>> 6ac3940 (Actualización de Jenkinsfile para Windows 11)
                 }
             }
         }
@@ -137,11 +137,11 @@ pipeline {
 
     post {
         success {
-            echo '✅ Pipeline ejecutado exitosamente en Windows 11.'
+            echo 'Pipeline ejecutado exitosamente en Windows 11.'
         }
         failure {
-            echo '❌ Hubo un error en la ejecución del pipeline.'
+            echo 'Hubo un error en la ejecución del pipeline.'
         }
     }
 }
->>>>>>> 6ac3940 (🚀 Actualización de Jenkinsfile para Windows 11)
+>>>>>>> 6ac3940 (Actualización de Jenkinsfile para Windows 11)
