@@ -47,7 +47,7 @@ pipeline {
         }
 
         stage('Deploy to QA') {
-            when { always() }  //ESTA LÍNEA EVITA QUE EL STAGE SEA "SKIPPED"
+            when { always() } 
             steps {
                 echo '🚀 Desplegando en QA...'
             }
