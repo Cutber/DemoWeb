@@ -11,17 +11,35 @@ pipeline {
         stage('Merge Develop into QA') {
             steps {
                 script {
-                    bat '''
-                    echo "⏳ Cambiando a la rama QA..."
+                    powershell '''
+                    # Configurar identidad en Git (evita errores de autenticación)
+                    git config --global user.name "Cutberto Hernández Sánchez"
+                    git config --global user.email "cutberto.hdez.s@gmail.com"
+
+                    # Verificar estado actual de las ramas
+                    Write-Output "📌 Verificando estado de las ramas..."
+                    git fetch --all
+
+                    # Cambiar a la rama QA
+                    Write-Output "📌 Cambiando a la rama qa..."
                     git checkout qa
 
-                    echo "🔄 Haciendo pull de QA..."
-                    git pull origin qa --ff-only
+                    # Hacer pull para actualizar la rama
+                    Write-Output "📌 Haciendo pull de QA..."
+                    git pull origin qa 
 
-                    echo "🔁 Fusionando cambios desde Develop..."
-                    git merge origin/develop --no-edit
+                    # Intentar el merge desde develop, capturando errores de conflicto
+                    Write-Output "📌 Intentando merge..."
+                    try {
+                        git merge origin/develop -X theirs
+                    } catch {
+                        Write-Output "⚠️ Conflictos detectados. Abortando merge."
+                        git merge --abort
+                        exit 1
+                    }
 
-                    echo "⬆️ Subiendo cambios a QA..."
+                    # Subir cambios si el merge fue exitoso
+                    Write-Output "✅ Merge exitoso, subiendo cambios..."
                     git push origin qa
                     '''
                 }
