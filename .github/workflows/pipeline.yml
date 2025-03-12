@@ -20,8 +20,8 @@ on:
       - main
 
 jobs:
- deploy_develop:
-    if: always()  #Asegura que siempre se ejecute, sin importar condiciones anteriores
+  deploy_develop:
+    if: github.ref == 'refs/heads/develop'
     runs-on: windows-latest
     steps:
       - name: Checkout código fuente
@@ -34,25 +34,3 @@ jobs:
         shell: pwsh
         run: |
           Write-Output "Integrando código ambiente de develop"
-
-  deploy_qa:
-    if: always()  #Asegura que nunca se omita
-    runs-on: windows-latest
-    steps:
-      - name: Checkout código fuente
-        uses: actions/checkout@v4
-      - name: Configurar entorno para QA
-        shell: pwsh
-        run: |
-          Write-Output "Configurando QA..."
-
-  deploy_qa_split:
-    if: always()  #Asegura que nunca se omita
-    runs-on: windows-latest
-    steps:
-      - name: Checkout código fuente
-        uses: actions/checkout@v4
-      - name: Configurar entorno para QA_SPLIT
-        shell: pwsh
-        run: |
-          Write-Output "Configurando QA_SPLIT..."
