@@ -47,7 +47,7 @@ pipeline {
         }
 
         stage('Deploy to QA') {
-            when { always() } 
+            when { expression { true } } 
             steps {
                 echo '🚀 Desplegando en QA...'
             }
