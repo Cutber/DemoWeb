@@ -6,6 +6,8 @@ on:
     branches:
       - develop
       - qa_split
+      - feature/dev
+      - qa
   push:
     paths-ignore:
       - '.github/**'
@@ -13,6 +15,7 @@ on:
     branches:
       - develop
       - qa_split
+      - feature/dev
       - qa
       - main
 
